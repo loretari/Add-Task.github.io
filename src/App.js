@@ -7,31 +7,41 @@ function App() {
 
 const [tasks, setTasks] = useState([]);
 
-const transformTasks = (tasksObj) => {
-    const loadedTasks = [];
-
-    for (const taskKey in tasksObj) {
-        loadedTasks.push({id: taskKey, text: tasksObj[taskKey].text})
-    }
-
-    setTasks(loadedTasks);
-}
+// const transformTasks = ((tasksObj) => {
+//     const loadedTasks = [];
+//
+//     for (const taskKey in tasksObj) {
+//         loadedTasks.push({id: taskKey, text: tasksObj[taskKey].text})
+//     }
+//
+//     setTasks(loadedTasks);
+// }, [])
 
 
 const {
     isLoading,
     error,
     sendRequest: fetchTasks,
-} = useHttp({
-    url: "https://react-http-cd156-default-rtdb.firebaseio.com/tasks.json"},
-    transformTasks)
+} = useHttp()
 
 
 
 
 useEffect(() => {
-    fetchTasks()
-}, []);
+
+    const transformTasks = ((tasksObj) => {
+        const loadedTasks = [];
+
+        for (const taskKey in tasksObj) {
+            loadedTasks.push({id: taskKey, text: tasksObj[taskKey].text})
+        }
+
+        setTasks(loadedTasks);
+    })
+    fetchTasks({
+        url: "https://react-http-cd156-default-rtdb.firebaseio.com/tasks.json"},
+        transformTasks)
+}, [fetchTasks]);
 
     const taskAddHandler = (task) => {
 setTasks((prevTasks) => prevTasks.concat(task))
