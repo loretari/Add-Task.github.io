@@ -9,7 +9,7 @@ const [error, setError] = useState(null)
 
     const enterTaskHandler = async (taskText) => {
     setIsLoading(true)
-        setIsLoading(null)
+        setError(null)
         try {
             const response = await fetch(
                 "https://react-http-cd156-default-rtdb.firebaseio.com/tasks.json",
